@@ -41,6 +41,7 @@ public class MainActivity extends Activity implements OnKeyListener {
 
     public void btnLevelOneCliked(View view) {
         Intent intent = new Intent(getApplicationContext(),Main2Activity.class);
+        intent.putExtra("level","1");
         startActivity(intent);
     }
 

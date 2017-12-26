@@ -6,28 +6,33 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 class Stage {
     Context context;
     static float leftBar, rightBar, topBar, bottomBar;
-    private float canvasWidth, canvasHeight, xBallValue, yBallValue, dx, dy, radius;
+    private float canvasWidth, canvasHeight,xBallValue, yBallValue, dx, dy, radius;
     private Canvas canvas;
     private Paint paint;
     private List<Brick> listBrick;
-    int score, numberOfBrick;
+    private int score, numberOfBrick;
     boolean newLife;
     static boolean isPause;
-    Ball objBall;
+    private Ball objBall;
+    String level;
 
-    void Win() {
+    private void Win() {
         if(score==numberOfBrick){
             Intent intent = new Intent(context,MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
     }
-
     private void upDateBallPossition() {
         if (xBallValue <= radius || xBallValue >= canvasWidth - radius) {
             dx = -dx;
@@ -46,13 +51,10 @@ class Stage {
                     xBallValue <= obj.getRight()) {
                 dy = -dy;
                 toRemove.add(obj);
-                Log.e("rasel", "Collided");
                 score +=1;
             }
         }
         if (xBallValue >= leftBar && xBallValue <= rightBar && topBar - yBallValue < 8) {
-            Log.e("rasel", "ball Y: " + yBallValue);
-            Log.e("rasel", "bar  Y: " + topBar);
             dy = -dy;
 
         }
@@ -84,7 +86,27 @@ class Stage {
         }
     }
 
-    Stage(Context context, Canvas canvas, Paint paint) {
+    Stage(Context context, Canvas canvas, Paint paint, String str) {
+        this.level=str;
+        String line="";
+        StringBuilder finalString = new StringBuilder();
+        InputStream inputStream = context.getResources().openRawResource(R.raw.level1);
+
+        BufferedReader reader= new BufferedReader(new InputStreamReader(inputStream));
+        try{
+            while ((line= reader.readLine()) !=null){
+                finalString.append(line);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        String brick=finalString.substring(finalString.indexOf("=")+1,finalString.indexOf(" "));
+        String speed = finalString.substring(finalString.indexOf("Speed=")+6);
+        speed= speed.trim();
+        brick = brick.trim();
+
+       // Log.d("speed =",speed);
+       // Log.d("brick =",brick);
         this.context = context;
         this.canvas = canvas;
         this.paint = paint;
@@ -97,10 +119,11 @@ class Stage {
         bottomBar = canvas.getHeight() - 50;
         xBallValue = leftBar+120;
         yBallValue = topBar-radius+5;
-        dx = 8;
-        dy = 8;
+       // dx = 8;
+      //  dy = 8;
         score = 0;
-        numberOfBrick = 10;
+        numberOfBrick = Integer.valueOf(brick);
+        dx=dy=Integer.valueOf(speed);
         isPause = true;
 
         listBrick = new ArrayList<>();
@@ -122,5 +145,6 @@ class Stage {
             }
             colides();
             updateScore(canvas, paint);
+            Win();
     }
 }

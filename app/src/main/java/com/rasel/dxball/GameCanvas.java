@@ -16,11 +16,12 @@ public class GameCanvas extends View {
     Stage stageObj;
     boolean firstTime = true;
     private static int counter = 0;
+    String level;
 
     protected void onDraw(Canvas canvas) {
         if (firstTime) {
             firstTime = false;
-            stageObj = new Stage(context, canvas, paint);
+            stageObj = new Stage(context, canvas, paint,level);
         }
         paint.setTextAlign(Paint.Align.LEFT);
         paint.setTextSize(75);
@@ -55,8 +56,9 @@ public class GameCanvas extends View {
         }
     }
 
-    public GameCanvas(Context context) {
+    public GameCanvas(Context context, String str) {
         super(context);
+        this.level=str;
         paint = new Paint();
         this.context = context;
         this.setOnTouchListener(new touchHandler());
