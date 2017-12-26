@@ -18,7 +18,7 @@ public class Bar extends InterDrawable {
         this.paint = paint;
     }
     @Override
-    void Paint() {
+    void Paint(Canvas canvas, Paint paint) {
         canvas.drawRect(left, top, right, bottom, paint);
     }
 

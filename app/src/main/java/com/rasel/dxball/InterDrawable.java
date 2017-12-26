@@ -11,6 +11,6 @@ abstract class InterDrawable {
     float x, y;
     Canvas canvas; Paint paint;
 
-    abstract void Paint();
+    abstract void Paint(Canvas canvas, Paint paint);
     abstract void collideWiht();
 }

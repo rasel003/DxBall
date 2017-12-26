@@ -2,6 +2,7 @@ package com.rasel.dxball;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 /**
  * Created by RaSeL on 30-Nov-17.
@@ -17,8 +18,8 @@ public class Ball extends InterDrawable {
         this.paint = paint;
     }
     @Override
-    void Paint() {
-        canvas.drawCircle(x,y, 40, paint);
+    void Paint(Canvas canvas, Paint paint) {
+        canvas.drawCircle(x+=30,y, 40, paint);
     }
 
     @Override

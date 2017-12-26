@@ -1,6 +1,7 @@
 package com.rasel.dxball;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -35,12 +36,17 @@ public class MainActivity extends Activity implements OnKeyListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GameCanvas g= new GameCanvas(this);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        g.setOnKeyListener(this);
-        g.setFocusableInTouchMode(true);
-        g.requestFocus();
-        setContentView(g);
+        setContentView(R.layout.activity_main);
+    }
+
+    public void btnLevelOneCliked(View view) {
+        Intent intent = new Intent(getApplicationContext(),Main2Activity.class);
+        startActivity(intent);
+    }
+
+    public void btnLevelTwoCliked(View view) {
+    }
+
+    public void btnQuitCliked(View view) {
     }
 }

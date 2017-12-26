@@ -7,51 +7,59 @@ package com.rasel.dxball;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 
 public class GameCanvas extends View {
-
-    Paint paint; Stage stageObj;
-    float x = 0, y = 0, radius = 40, dx = 8, dy = 8;
+    Context context;
+    Paint paint;
+    Stage stageObj;
     boolean firstTime = true;
-
-    public void setBarValue(int keyCode) {
-        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT)
-            this.x += 2;
-
-    }
-
-    protected void calculateNextPos(Canvas canvas) {
-        if (x <= radius || x >= (canvas.getWidth()) - radius) {
-            dx = -dx;
-        }
-        if (y <= radius || y >= (canvas.getHeight()) - radius) {
-            dy = -dy;
-        }
-    }
+    private static int counter = 0;
 
     protected void onDraw(Canvas canvas) {
         if (firstTime) {
             firstTime = false;
-            x = canvas.getWidth() / 2;
-            y = canvas.getHeight() / 2;
-            stageObj = new Stage(canvas,paint);
+            stageObj = new Stage(context, canvas, paint);
         }
-       /* calculateNextPos(canvas);
-        x -=dx; y -=dy;
-        canvas.drawRGB(255, 255, 255);
-        paint.setColor(Color.RED);
-        paint.setStyle(Style.FILL);
-        canvas.drawCircle(x,y, 40, paint);
-        canvas.drawRect((canvas.getWidth()/2)-150, canvas.getHeight()-100, (canvas.getWidth()/2)+150, canvas.getHeight()-50, paint); */
-       stageObj.drawStage();
+        paint.setTextAlign(Paint.Align.LEFT);
+        paint.setTextSize(75);
+        canvas.drawText("Level 1", 60, 100, paint);
+        stageObj.drawStage(canvas, paint);
 
         invalidate();
+    }
+
+    public class touchHandler implements OnTouchListener {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_MOVE:
+                    Stage.leftBar = motionEvent.getX();
+                    Stage.rightBar = Stage.leftBar + 300;
+                    counter++;
+                    break;
+                case MotionEvent.ACTION_UP:
+                    if (counter < 10) {
+                        if (Stage.isPause) {
+                            Stage.isPause = false;
+                        } else if (!Stage.isPause) {
+                            Stage.isPause = true;
+                        }
+                    }
+                    counter = 0;
+                    break;
+            }
+            return true;
+        }
     }
 
     public GameCanvas(Context context) {
         super(context);
         paint = new Paint();
+        this.context = context;
+        this.setOnTouchListener(new touchHandler());
+
     }
 }
