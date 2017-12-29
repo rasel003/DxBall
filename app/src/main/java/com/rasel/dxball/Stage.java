@@ -66,16 +66,16 @@ class Stage {
 
     private void colides() {  //collision id in the parameter
         List<Brick> toRemove = new ArrayList<>();
-       // Log.d("rasel","values of Ball Left: "+(xBallValue-radius));
-       // Log.d("rasel","values of Ball Right: "+(xBallValue+radius));
-       // Log.d("rasel","values of Ball Top: "+yBallValue);
-       // Log.d("rasel","values of Ball Bottom: "+yBallValue);
+        Log.d("rasel","values of Ball Left: "+(xBallValue-radius));
+        Log.d("rasel","values of Ball Right: "+(xBallValue+radius));
+        Log.d("rasel","values of Ball Top: "+yBallValue);
+        Log.d("rasel","values of Ball Bottom: "+yBallValue);
         int ball = 1;
         for (Brick obj : listBrick) {
-           // Log.e("rasel","Ball 1");
-           // Log.e("rasel","Bottom; "+obj.getBottom());
-          //  Log.e("rasel","Left; "+obj.getLeft());
-           // Log.e("rasel","Right; "+obj.getRight());
+            Log.e("rasel","Ball 1");
+           Log.e("rasel","Bottom; "+obj.getBottom());
+           Log.e("rasel","Left; "+obj.getLeft());
+            Log.e("rasel","Right; "+obj.getRight());
 
             if ((yBallValue + radius) - obj.getBottom() <= 5 && xBallValue + radius >= obj.getLeft() &&
                     xBallValue - radius <= obj.getRight()) {
