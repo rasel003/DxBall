@@ -86,10 +86,6 @@ class Stage {
         }
         if (xBallValue + radius >= leftBar && xBallValue - radius <= rightBar && topBar - (yBallValue + radius) <= dx) {
             dy = -dy;
-            if(isPause){
-                dx = - Math.abs(dx);
-                dy = Math.abs(dy);
-            }
 
         }
         listBrick.removeAll(toRemove);
